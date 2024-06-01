@@ -15,12 +15,16 @@ Gitee地址：[https://gitee.com/feng-shunjie/wx_res_hotupdate](https://gitee.co
 [https://help.aliyun.com/zh/oss/developer-reference/install-and-log-on-to-ossbrowser](https://help.aliyun.com/zh/oss/developer-reference/install-and-log-on-to-ossbrowser)
 
 把Github上项目的资源服务器文件夹的cur和LatestVer放到服务器，同时打包小游戏要写上你自己的资源服务器地址；
+
 cur表示旧项目(版本号0.2.58)微信打包后的res文件夹；
 LatestVer表示新项目(版本号0.2.60)微信打包后的res文件夹并且还有一些定制的内容，看链接具体分析
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/direct/0197a03368a743dfa2899b408b1b563c.png#pic_center)
+
 同时代码中也要进行相应的修改地址（因为CocosWXDownloader要从对应服务器下载）
 里面有两个项目，一个是MiniGameOld，0.2.58版本的旧版本的项目,一个是MiniGameNew，0.2.60版本的新版本的项目,两个项目完全相同，只有一个card_m/204图片的差异，
 本次要热更的就是这个图片资源
+
 这个热更框架可以做到
 1：重启热更，一般项目也就这种需求
 2：无感知热更，也就是在游戏过程中东西去更新一个图片或者什么资源等等，这个需要开发者手动去除旧资源，这个属于资源管理部分不说了；
