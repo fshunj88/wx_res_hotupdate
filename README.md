@@ -7,27 +7,27 @@ https://boardmix.cn/app/share/CAE.CLfz5Q0gASoQ_RKMzIU12PVIbOqrvLLLcTAGQAE/9AzkJn
 点击链接加入boardmix中的文件「Creator2.2.2小游戏资源底层分析」
 
 原理简述：
-里面有两个项目，一个是MiniGameOld，0.2.58版本的旧版本的项目,一个是MiniGameNew，0.2.60版本的新版本的项目,两个项目完全相同，而已一个card_m/204图片的差异，
+里面有两个项目，一个是MiniGameOld，0.2.58版本的旧版本的项目,一个是MiniGameNew，0.2.60版本的新版本的项目,两个项目完全相同，除了一个card_m/204图片的差异，
 本次要热更的就是这个图片资源
 
 务必对creator2.2.2的资源系统(cc.loader.loadres的经过的各个pipe)比较熟悉再看本人的讲解，不然会十分看不懂；
 
-先说微信打包有一个fs-utils.js的功能，fs-utils.js获取一个文件时候是从代码包里获取，没有的话下载到gameCaches缓存目录，下一次获取相同文件如果已经下载了，就从gameCaches里面获取，
-本人定制的WXFileSystem是从缓存根目录的res文件夹中获取所有的json和raw资源，下载资源也是下载到gameCaches中；
+先说微信打包有一个fs-utils.js的功能，fs-utils.js获取一个文件时候是从代码包里获取，没有的话下载到微信缓存的gameCaches缓存目录，下一次获取相同文件如果已经下载了，就从gameCaches里面获取，
+本人定制的WXFileSystem是从缓存根目录的res文件夹中获取所有的json和raw资源，下载资源也是下载到res里面中；
 
 定制的CocosWXDownloader将会替代RemoteDownloader这个pipe，这样下载任何东西都会由CocosWXDownloader代理，CocosWXDownloader会利用WXFileSystem来在缓存根目录的res文件中存取资源；
 
-游戏开始处理最开始的系统内建资源是由RemoteDownloader主导的的，一旦CocosWXDownloader植入完成，下载和存取流程就由CocosWXDownloader完成，和RemoteDownloader和fs-utils都没有任何关系了
+游戏开始处理最开始的系统内建资源是由RemoteDownloader主导的，之后执行到ts层，一旦CocosWXDownloader植入完成，下载和存取流程就由CocosWXDownloader完成，和RemoteDownloader和fs-utils都没有任何关系了，此时的cc.loader.loadres会经过CocosWXDownloader这个pipe处理
 
 热更时候，需要把新版本的settnig.js变成settings_XX.txt，然后放在远程服务器，微信客户端读取最新的settings_Xx.txt，并且重新初始化AssetLibrary，
-然后再重新加载同一个资源,cc.loader.loadres,由于资源库改变了，对应(cc.SpriteFrame类型)uuid也改变了，包cc.SpriteFrame类型的uuid所依赖的所有uuid也全部更新，
+然后再重新加载同一个资源，cc.loader.loadres时候,由于资源库改变了，对应(cc.SpriteFrame类型)uuid也改变了，cc.SpriteFrame类型的uuid所依赖的所有uuid也全部更新，
 所以此时的cc.loader.loadres将会加载一个全新的资源，替代旧的资源；这就是资源热更原理；更加具体的操作细节看链接和pdf
 
-里面还有一些针对引擎的修改，务必注意下，cc.loader.removePipe的支持
+里面还有一些针对Creator-js引擎的修改，务必注意下，cc.loader.removePipe的支持,具体看链接
 
 tools文件夹下有一个compile.py，用于编译ts层的所有ts文件，全部编译到assets/Script/src/GameLogic.js下；
 
-针对cocoscreator2.4.x新的资源管理系统热更，也多少两句，这个项目不是基于2.4.x的，因为2.4.x用了AssetBundle,
+针对cocoscreator2.4.x新的资源管理系统热更，也多说两句，这个项目不是基于2.4.x的，因为2.4.x用了AssetBundle,
 AssetBundle有config.json,和2.2.x的setting.js功能是一样的，因此资源服务器更新AssetBundle的config.json即可，同时微信客户端清空所有缓存，
 重启即可达到资源热更。
 
