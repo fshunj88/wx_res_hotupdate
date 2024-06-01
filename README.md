@@ -8,7 +8,7 @@ https://boardmix.cn/app/share/CAE.CLfz5Q0gASoQ_RKMzIU12PVIbOqrvLLLcTAGQAE/9AzkJn
 
 原理简述：
 里面有两个项目，一个是MiniGameOld，0.2.58版本的旧版本的项目,一个是MiniGameNew，0.2.60版本的新版本的项目,两个项目完全相同，而已一个card_m/204图片的差异，
-本次要扔的就是这个图片资源
+本次要热更的就是这个图片资源
 
 务必对creator2.2.2的资源系统(cc.loader.loadres的经过的各个pipe)比较熟悉再看本人的讲解，不然会十分看不懂；
 
